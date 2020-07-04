@@ -13,6 +13,7 @@ double FitFunction(double *x, double *pars);
 
 ofstream output;
 
+
 void RNConvolution10peaks()
 {
 
@@ -232,10 +233,6 @@ float Erro_x[100] ={0.00000};
    
 
 
-    for(int i=0;i<10;i++){  
-    output.open("out1.txt");
-     
-    gr[i] = new TGraphErrors();
    
     TF1 *fGaus = new TF1("fGaus","[0] * TMath::Gaus(x,[1],[2],0)",displaymin,displaymax);
     fGaus->SetParameter(0,200);
@@ -453,6 +450,9 @@ float Erro_x[100] ={0.00000};
         //}
         //c2[can_id]->cd(d%5+1);
 	//h[d]->SaveAs(Form("c2%d.pdf",d));
+
+     for(int i = 0; i < 10; i++ ){
+         output.open("out1.txt");
 	
  
      theta_cm[d] = asin(gamma*sin(Angles_plot[d])) + Angles_plot[d] ; 
@@ -474,18 +474,28 @@ float Erro_x[100] ={0.00000};
     
      error[d]=cxn[d]*sqrt(1/peakarea[i] );
   
-     output<< d << " " << theta_cm[d] <<" " << peak[i] << " " << cxn[d] << " " << error[d] << " " << peakarea[i] <<endl;
-
-
-  
+    output<< d << " " << theta_cm[d] <<" " << peak[i] << " " << cxn[d] << " " << error[d] << " " << peakarea[i] <<endl;
+    if(i == 0){gROOT->ProcessLine(Form(".! head out1.txt >> peak_%d.txt",i));}
+    else if(i == 1){gROOT->ProcessLine(Form(".! head out1.txt >> peak_%d.txt",i));}
+    else if(i == 2){gROOT->ProcessLine(Form(".! head out1.txt >> peak_%d.txt",i));}
+    else if(i == 3){gROOT->ProcessLine(Form(".! head out1.txt >> peak_%d.txt",i));}
+    else if(i == 4){gROOT->ProcessLine(Form(".! head out1.txt >> peak_%d.txt",i));}
+    else if(i == 5){gROOT->ProcessLine(Form(".! head out1.txt >> peak_%d.txt",i));}
+    else if(i == 6){gROOT->ProcessLine(Form(".! head out1.txt >> peak_%d.txt",i));}
+    else if(i == 7){gROOT->ProcessLine(Form(".! head out1.txt >> peak_%d.txt",i));}
+    else if(i == 8){gROOT->ProcessLine(Form(".! head out1.txt >> peak_%d.txt",i));}
+    else if(i == 9){gROOT->ProcessLine(Form(".! head out1.txt >> peak_%d.txt",i));}
+    gROOT->ProcessLine(".!rm out1.txt");
+    output.close();
+      
    
  }
- gROOT->ProcessLine(Form(".!mv out1.txt peak_%d.txt",i));
- output.close();
+// gROOT->ProcessLine(Form(".!mv out1.txt peak_%d.txt",i));
+ 
   
      
 }
-
+output.close();
 //you can read those files with the for loop and draw here with the (5,2) canvas
 /*
 for (int peak = 0;peak < 10;peak++){
